@@ -7,7 +7,11 @@
           <input type="text" v-model="searchItem" />
           <button type="submit">Search</button>
         </form>
-        <h5>Photo of me:</h5>
+        With {{ searchItem }} Total {{ serachResult.length }} results found .
+
+        <hr />
+
+        <!-- <h5>Photo of me:</h5>
         <div class="fakeimg">Fake Image</div>
         <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
         <h3 class="mt-4">Some Links</h3>
@@ -26,19 +30,20 @@
             <a class="nav-link disabled" href="#">Disabled</a>
           </li>
         </ul>
-        <hr class="d-sm-none" />
+        <hr class="d-sm-none" /> -->
       </div>
       <div class="col-sm-8">
-        <div v-for="post in posts" :key="post.id">
-          <h2>{{ post.product_name }}</h2>
-          <h5>Title description, Dec 7, 2020</h5>
-          <div class="fakeimg">Fake Image</div>
-          <p>Some text..</p>
-          <p>
-            {{ post.product_details }}
-          </p>
-          <!-- {{ posts }} -->
-        </div>
+        <ol>
+          <li v-for="item in serachResult" :key="item.id">
+            <h2>{{ item.product_name }}</h2>
+            <h5>Title description, Dec 7, 2020</h5>
+
+            <p>
+              {{ item.product_details }}
+            </p>
+            <!-- {{ posts }} -->
+          </li>
+        </ol>
       </div>
     </div>
   </div>
@@ -57,6 +62,8 @@ export default {
       axios
         .post("http://127.0.0.1:8000/api/search/", { item: this.searchItem })
         .then((response) => {
+          // console.log(response.data);
+          this.serachResult = response.data;
           console.log(response.data);
         });
     },
