@@ -25,15 +25,146 @@
         <hr class="d-sm-none" />
       </div>
       <div class="col-sm-8">
-        <div v-for="post in posts" :key="post.id">
-          <h2>{{ post.product_name }}</h2>
-          <h5>Title description, Dec 7, 2020</h5>
-          <div class="fakeimg">Fake Image</div>
-          <p>Some text..</p>
-          <p>
-            {{ post.product_details }}
-          </p>
-          <!-- {{ posts }} -->
+        <!-- form for add product -->
+        <button
+          @click="
+            formDisplay = true;
+            submitButton = true;
+          "
+          class="btn btn-primary"
+        >
+          New Product
+        </button>
+        <div v-if="formDisplay">
+          {{ JSON.stringify(formValues, null, 2) }}
+          <form name="productForm">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="form-label" for="product_name"
+                  >Product Name</label
+                >
+                <div class="form-control-wrap">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="product_name"
+                    v-model="formValues.p_name"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label class="form-label" for="product_details"
+                  >Product Details</label
+                >
+                <div class="form-control-wrap">
+                  <textarea
+                    id="product_details"
+                    cols="30"
+                    rows="6"
+                    class="form-control"
+                    v-model="formValues.p_details"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-label" for="regular-price">Price</label>
+                <div class="form-control-wrap">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="product_price"
+                    v-model="formValues.p_price"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-label" for="product_stock">Stock</label>
+                <div class="form-control-wrap">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="product_stock"
+                    v-model="formValues.p_stock"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label class="form-label" for="category">Category</label>
+                <div class="form-control-wrap">
+                  <select
+                    id="product_category"
+                    class="form-control"
+                    v-model="formValues.p_cat"
+                  >
+                    <option value="">Select one</option>
+                    <option value="1">pant</option>
+                    <option value="2">shirt</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <!-- <div class="upload-zone small bg-lighter my-2">  -->
+              <label class="form-label my-2" for="product_image"
+                >Product image</label
+              >
+              <input type="file" class="form-control" id="product_image" />
+            </div>
+            <!-- </div> -->
+            <div class="col-12" v-if="submitButton">
+              <button
+                type="button"
+                @click="product_submit"
+                class="btn btn-primary"
+              >
+                SUBMIT
+              </button>
+            </div>
+            <!-- for update -->
+
+            <div class="col-12" v-if="updateButton">
+              <button
+                type="button"
+                @click="product_update"
+                class="btn btn-primary"
+              >
+                UPDATE
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div v-if="productList">
+          <div v-for="post in posts" :key="post.id">
+            <h2>{{ post.product_name }}</h2>
+            <h5>Title description, Dec 7, 2020</h5>
+            <div class="fakeimg">Fake Image</div>
+            <p>Some text..</p>
+            <p>
+              {{ post.product_details }}
+            </p>
+
+            <!-- {{ posts }} -->
+            <span @click="product_delete(post.id)" class="btn btn-danger">
+              Delete
+            </span>
+            <span
+              @click="
+                edit_product(post);
+                updateButton = true;
+              "
+              class="btn btn-info"
+              >Edit</span
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -45,12 +176,84 @@ export default {
   data() {
     return {
       posts: [],
+      formDisplay: false,
+      EditformDisplay: false,
+      submitButton: false,
+      updateButton: false,
+      productList: true,
+      formValues: {
+        p_name: "",
+        p_details: "",
+        p_price: "",
+        p_stock: "",
+        p_cat: "",
+      },
     };
   },
   mounted() {
-    axios.get("http://localhost:8000/api/products").then((response) => {
-      this.posts = response.data;
-    });
+    this.get_products();
+    // axios.get("http://localhost:8000/api/products").then((response) => {
+    //   this.posts = response.data;
+    // });
+  },
+  methods: {
+    product_submit() {
+      axios
+        .post("http://localhost:8000/api/products", {
+          // prod_details: this.formValues,
+          product_name: this.formValues.p_name,
+          product_details: this.formValues.p_details,
+          product_price: this.formValues.p_price,
+          product_stock: this.formValues.p_stock,
+          product_category: this.formValues.p_cat,
+        })
+        .then((response) => {
+          this.formDisplay = false;
+          this.formValues = {};
+          this.get_products();
+          alert(response.data);
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
+    },
+    get_products() {
+      axios.get("http://localhost:8000/api/products").then((response) => {
+        this.posts = response.data;
+      });
+    },
+    product_delete(id) {
+      axios
+        .delete("http://localhost:8000/api/products/" + id)
+        .then((response) => {
+          this.get_products();
+          alert(response.data.msg);
+        });
+    },
+    edit_product(product) {
+      this.formDisplay = "true";
+
+      this.formValues.id = product.id;
+      this.formValues.p_name = product.product_name;
+      this.formValues.p_details = product.product_details;
+      this.formValues.p_price = product.product_price;
+      this.formValues.p_cat = product.product_cat;
+      this.productList = false;
+    },
+    product_update() {
+      axios
+        .put("http://localhost:8000/api/products/" + this.formValues.id, {
+          product_name: this.formValues.p_name,
+          product_details: this.formValues.p_details,
+          product_price: this.formValues.p_price,
+          product_stock: this.formValues.p_stock,
+          product_category: this.formValues.p_cat,
+        })
+        .then((response) => {
+          this.get_products();
+          alert(response.data);
+        });
+    },
   },
 };
 </script>
