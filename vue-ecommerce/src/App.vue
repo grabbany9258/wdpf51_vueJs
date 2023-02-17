@@ -1,14 +1,18 @@
 <template>
-    <div>
-        <h1>This is App.vue page</h1>
-    </div>
+    <master />
 </template>
 <script>
-import Component Header from './layouts / Header.vue'
-export default {
 
+
+
+import Master from './pages/Master.vue';
+
+
+
+
+
+export default {
+    components: { Master },
 }
 </script>
-<style>
-
-</style>
+<style></style>

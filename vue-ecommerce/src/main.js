@@ -1,7 +1,18 @@
 import { createApp } from "vue";
-// import App from "./App.vue";
-import App from "./Header.vue";
+import App from "./App.vue";
+import { createRouter, createWebHistory } from "vue-router";
+// import Home from "./pages/Master.vue";
+import Home from "./pages/Home.vue";
+import Shop from "./pages/Shop.vue";
 
-// import './assets/main.css'
+const routes = [
+  { path: "/", component: Home },
+  { path: "/shop", component: Shop },
+];
 
-createApp(App).mount("#app");
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+  linkActiveClass: "active",
+});
+createApp(App).use(router).mount("#app");
