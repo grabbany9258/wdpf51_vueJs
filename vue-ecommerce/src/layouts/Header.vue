@@ -169,28 +169,34 @@
                     <div class="primary-nav-section">
                         <div class="container">
                             <ul class="nav primary clone-main-menu" id="mercado_main" data-menuname="Main menu">
+                                <!-- <li class="menu-item home-icon">
+                                                                                                        <a href="index.html" class="link-term mercado-item-title"><i class="fa fa-home"
+                                                                                                                aria-hidden="true"></i></a>
+                                                                                                    </li> -->
+
                                 <li class="menu-item home-icon">
-                                    <a href="index.html" class="link-term mercado-item-title"><i class="fa fa-home"
-                                            aria-hidden="true"></i></a>
+                                    <router-link to="/" class="link-term mercado-item-title"><i class="fa fa-home"
+                                            aria-hidden="true"></i></router-link>
                                 </li>
+
                                 <li class="menu-item">
-                                    <a href="about-us.html" class="link-term mercado-item-title">About Us</a>
+                                    <router-link to="/about" class="link-term mercado-item-title">About Us</router-link>
                                 </li>
-                                <!-- <li class="menu-item">
-                                                            <a href="shop.html"  class="link-term
-                                                                mercado-item-title">Shop</a>
-                                                        </li> -->
+
                                 <li class="menu-item">
                                     <router-link to="/shop" class="link-term mercado-item-title">Shop</router-link>
                                 </li>
+
                                 <li class="menu-item">
-                                    <a href="cart.html" class="link-term mercado-item-title">Cart</a>
+                                    <router-link to="/cart" class="link-term mercado-item-title">Cart</router-link>
                                 </li>
+
                                 <li class="menu-item">
-                                    <a href="checkout.html" class="link-term mercado-item-title">Checkout</a>
+                                    <router-link to="/checkout" class="link-term mercado-item-title">Checkout</router-link>
                                 </li>
+
                                 <li class="menu-item">
-                                    <a href="contact-us.html" class="link-term mercado-item-title">Contact Us</a>
+                                    <router-link to="/contact" class="link-term mercado-item-title">Contact Us</router-link>
                                 </li>
                             </ul>
                         </div>
