@@ -1,0 +1,99 @@
+vue templating steps:
+Reference LInk : https://www.youtube.com/watch?v=3ymLvBPLIWc&t=149s
+
+1) npm install vue-router@next --save
+
+2)public->create folder->css,js,others files keep here,,
+
+3) index.html a template ar begging to <body> start  thakbe & ending to below footer thakbe..
+majhe 
+
+	!) <div id="app"></div>
+
+    	!!) <script type="module" src="/src/main.js"></script>
+4) index.html a  path dekhay dite hbe upload ar under a css, js gular.
+
+5)src->creat folder->create file Master.vue paste <body> ar por theke </footer> ses howa porjonto..
+
+6) change img path
+
+7) Master.vue ar export defult a 
+	name: 'Master',  dileo ok na dileo ok.
+
+##############  main.js ##############
+
+import { createApp } from "vue";
+import App from "./App.vue";
+import { createRouter, createWebHistory } from "vue-router";
+import Home from "./pages/Master.vue";
+
+const routes = [
+  { path: "/", component: Home },
+  { path: "/about-us", component: About - Us },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+  linkActiveClass: "active",
+});
+createApp(App).use(router).mount("#app");
+
+########## App.vue ##########
+
+1)
+
+<template>
+    <master></master>
+</template>
+
+
+2) script a import korte hbe
+
+import Master from './pages/Master.vue'
+
+3) Register in export default
+
+export default {
+    components: { Master },
+}
+
+###### Header footer kata ######
+
+1) src->layouts-> tar vitore Header.vue & Footer.vue   & Master theke kete niye rakhbe header & footer and 
+
+export default{ name: 'Header',} & footer ao same..
+
+2) Master.vue a 
+<headerpage></headerpage>
+
+import korte hbe...
+import Headerpage from "../layouts/Header.vue"
+
+export default a register korte hbe
+
+components: { Headerpage, Footerpage },
+
+######  Home.vue banate hbe Pages ar under a & Master.vue theke header footer bad diye majher content Home.vue a ante hbe.. and master.vue 
+<router-view></router-view> hbe..
+
+then main.js a import korte hbe 
+import Home from "./pages/Home.vue";
+
+and routes a thakte hbe 
+
+const routes = [
+  { path: "/", component: Home },
+];
+
+
+##### Notun page add korte route ######
+
+1) main.js a import korte hbe
+	import Shop from "./pages/Shop.vue";
+2) const routes a path dite hbe
+	{ path: "/shop", component: Shop },
+3) header.vue a router-link dite hbe..
+
+Avabei cholbe inshaALLAH
+
